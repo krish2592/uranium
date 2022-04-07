@@ -1,7 +1,7 @@
 //Problem 1
-let greet = function() {
+let welcome = function() {
     console.log('Welcome to my application. I am Sachin and a part of FunctionUp Thorium cohort.')
     return 'Welcome to my application. I am Sachin and a part of FunctionUp Thorium cohort.';
 }
 
-module.exports.welcome=greet;
+module.exports.greet=welcome;

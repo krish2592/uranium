@@ -2,21 +2,21 @@
 
 let str="          FunctionUp "
 
-let trimString=function(){
+let trim=function(){
     console.log(str.trim());
     return str.trim();
 }
 
-let lowerCase=function(){
+let toLowerCase=function(){
     console.log(str.trim().toLowerCase())
     return str.trim().toLowerCase();
 }
 
-let upperCase=function(){
+let toUpperCase=function(){
     console.log(str.trim().toUpperCase())
     return str.trim().toUpperCase();
 }
 
-module.exports.trim=trimString;
-module.exports.toLowerCase=lowerCase;
-module.exports.toUpperCase=upperCase;
+module.exports.trimString=trim;
+module.exports.lowerCase=toLowerCase;
+module.exports.upperCase=toUpperCase;

@@ -7,13 +7,13 @@ const router = express.Router();
 
 router.get('/test-me', function (req, res) {
     console.log('I am inside the first route handler')
-    logger.welcome();
-    helper.printDate();
-    helper.printMonth();
-    helper.getBatchInfo();
-    formatter.trim();
-    formatter.toLowerCase();
-    formatter.toUpperCase();
+    logger.greet();
+    helper.currDate();
+    helper.currMonth();
+    helper.batchInfo();
+    formatter.trimString();
+    formatter.lowerCase();
+    formatter.upperCase();
     res.send('My first ever api!')
 
 });

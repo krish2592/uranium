@@ -7,7 +7,7 @@ res.send( {"data":saveBook});
 }
 
 let getBookNameAndAutor= async function(req,res){
-    let getBookList=await bookModel1.find().select({bookName:1, authorName:1})
+    let getBookList=await bookModel1.find().select({bookName:1, authorName:1,_id:0})
     res.send(getBookList);
 }
 

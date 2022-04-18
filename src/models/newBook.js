@@ -13,6 +13,10 @@ publisher:{
     type:ObjectId,
     ref:"NewPublisher",
     required:true
+},
+isHardCover:{
+    type:Boolean,
+    default:false
 }
 },{timestamps:true})
 

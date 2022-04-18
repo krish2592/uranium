@@ -29,4 +29,6 @@ router.post("/createNewBook", newBookController.createNewBook)
 
 router.post("/getFullDetail", newBookController.getFullDetail)
 
+router.put("/books", newBookController.updateBook)
+
 module.exports = router;

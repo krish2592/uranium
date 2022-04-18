@@ -10,62 +10,63 @@ const createNewBook = async function (req, res) {
 
 
     //Method1  Note: No need to check lenght here
-    // if (author_id.length === 24) {
-    //     let authorId = await newAuthorModel.findById(author_id);
-    //     if (authorId) {
-    //         if (publisher_id.length === 24) {
-    //             let publisherId = await newPublisherModel.findById(publisher_id)
-    //             if (publisherId) {
-    //                 let saveBookData=await newBookModel.create(newBookData);
-    //                 res.send({status: true,data:saveBookData})
-    //             } else {
-    //                 res.send({status:false,message:"The publisher is not present in publisher collection"});
-    //             }
+    if (author_id.length === 24) {
+        let authorId = await newAuthorModel.findById(author_id);
+        if (authorId) {
+            if (publisher_id.length === 24) {
+                let publisherId = await newPublisherModel.findById(publisher_id)
+                if (publisherId) {
+                    let saveBookData=await newBookModel.create(newBookData);
+                    res.send({status: true,data:saveBookData})
+                } else {
+                    res.send({status:false,message:"The publisher is not present in publisher collection"});
+                }
 
-    //         }  else {
-    //             res.send({status:false,message:"Valid publisher id is mendatory!"});
-    //         }
+            }  else {
+                res.send({status:false,message:"Valid publisher id is mendatory!"});
+            }
 
-    //     } else {
-    //         res.send({status:false,message:"The author is not present in author collection"});
-    //     }
-    // } else {
-    //     res.send({status:false,message:"Valid author id is mendatory!"});
+        } else {
+            res.send({status:false,message:"The author is not present in author collection"});
+        }
+    } else {
+        res.send({status:false,message:"Valid author id is mendatory!"});
+    }
+
+
+/***********  Note: First write failure then happy case. Here we are not handlig wrong object id  ************/
+               
+//Method 2
+    // //a part faliure case
+    // if (!author_id) {
+    //     res.send({ status: false, message: "Author id is required!" })
     // }
 
+    // //c part failure case
+    // if (!publisher_id) {
+    //     res.send({ status: false, message: "Publisher id is required" })
+    // }
 
-    //Note: First write failure then happy case. Here we are not handlig wrong object id
+    // //b part happy flow/case
+    // if (author_id) {
+    //     let authorId = await newAuthorModel.findById(author_id)
+    //     //failure case first
+    //     if (!authorId) {
+    //         res.send({ status: false, message: "Author id is not present in author collection" })
+    //     }
+    // }
 
-    //a part faliure case
-    if (!author_id) {
-        res.send({ status: false, message: "Author id is required!" })
-    }
+    // //d part happy case
+    // if (publisher_id) {
+    //     let publisherId = await newPublisherModel.findById(publisher_id)
+    //     //failure case
+    //     if (!publisherId) {
+    //         res.send({ status: false, message: "Publisher id is not present in publisher collection" })
+    //     }
+    // }
 
-    //c part failure case
-    if (!publisher_id) {
-        res.send({ status: false, message: "Publisher id is required" })
-    }
-
-    //b part happy flow/case
-    if (author_id) {
-        let authorId = await newAuthorModel.findById(author_id)
-        //failure case first
-        if (!authorId) {
-            res.send({ status: false, message: "Author id is not present in author collection" })
-        }
-    }
-
-    //d part happy case
-    if (publisher_id) {
-        let publisherId = await newPublisherModel.findById(publisher_id)
-        //failure case
-        if (!publisherId) {
-            res.send({ status: false, message: "Publisher id is not present in publisher collection" })
-        }
-    }
-
-    let saveBookData = await newBookModel.create(newBookData)
-    res.send({ status: true, data: saveBookData })
+    // let saveBookData = await newBookModel.create(newBookData)
+    // res.send({ status: true, data: saveBookData })
 
 }
 
@@ -83,10 +84,6 @@ const updateBook = async function (req, res) {
     let findIdByPublisher = await newPublisherModel.find({ name: { $in: ["Penguin", "HarperCollins"] } }).select({ _id: 1 })
     let findIdByRating = await newAuthor.find({ rating: { $gt: 3.5 } }).select({ _id: 1 })
 
-    //With popuplate
-   // let publisherData=await newBookModel.find().populate("publisher").select({publisher:1})
-   // let findIdBypublisher=publisherData.map(element=>element.publisher.name)
-
     //Using loop
     const arrOfPublisherId = []
     for (let i = 0; i < findIdByPublisher.length; i++) {
@@ -102,7 +99,7 @@ const updateBook = async function (req, res) {
 
 
    res.send({ status: true, setHardCover: setHardCover, updatePice: updatePrice })
- //  res.send(findIdBypublisher)
+   
 }
 
 

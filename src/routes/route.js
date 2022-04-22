@@ -1,19 +1,33 @@
 const express = require('express');
+const { route } = require('express/lib/application');
 const router = express.Router();
+<<<<<<< HEAD
 // const UserModel= require("../models/userModel.js")
 const UserController= require("../controllers/userController")
 const BookController= require("../controllers/bookController")
 const commonMW = require ("../middlewares/commonMiddlewares")
+=======
+const userController= require("../controllers/userController_v01")
+const userAuthMiddleware=require("../middleware/auth")
+>>>>>>> assignment/auth-2
 
 router.get("/test-me", function (req, res) {
     res.send("My first ever api!")
 })
 
+<<<<<<< HEAD
 
 
+=======
+// router.post("/users", userController.createUser  )
 
-router.post("/createBook", BookController.createBook  )
+// router.post("/login", userController.loginUser)
+>>>>>>> assignment/auth-2
 
+// //The userId is sent by front end
+// router.get("/users/:userId", userController.getUserData)
+
+<<<<<<< HEAD
 
 
 
@@ -58,5 +72,14 @@ router.get("/basicRoute", commonMW.mid1, commonMW.mid2, commonMW.mid3, commonMW.
 
 
 
+=======
+// router.put("/users/:userId", userController.updateUser)
 
+router.post("/users",userController.createNewUser )
+router.post("/login",userController.signInUser)
+>>>>>>> assignment/auth-2
+
+router.get("/users/:userId",userAuthMiddleware.checkUserTokenAuth, userController.getUserDetail)
+router.put("/users/:userId", userAuthMiddleware.checkUserTokenAuth, userController.updateUser)
+router.delete("/users/:userId",userAuthMiddleware.checkUserTokenAuth, userController.deleteUser)
 module.exports = router;

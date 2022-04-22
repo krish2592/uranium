@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 
-<<<<<<< HEAD
 
 
 
@@ -16,48 +15,28 @@ const basicCode= async function(req, res) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const createUser= async function (req, res) {
     let data= req.body
     let savedData= await UserModel.create(data)
     res.send({msg: savedData})
 }
-=======
-const createUser = async function (abcd, xyz) {
-  //You can name the req, res objects anything.
-  //but the first parameter is always the request 
-  //the second parameter is always the response
-  let data = abcd.body;
-  let savedData = await userModel.create(data);
-  console.log(abcd.newAtribute);
-  xyz.send({ msg: savedData });
-};
->>>>>>> assignment/auth-2
+
+// const createUser = async function (abcd, xyz) {
+//   //You can name the req, res objects anything.
+//   //but the first parameter is always the request 
+//   //the second parameter is always the response
+//   let data = abcd.body;
+//   let savedData = await userModel.create(data);
+//   console.log(abcd.newAtribute);
+//   xyz.send({ msg: savedData });
+// };
 
 const loginUser = async function (req, res) {
   let userName = req.body.emailId;
   let password = req.body.password;
 
-<<<<<<< HEAD
-module.exports.createUser= createUser
-module.exports.getUsersData= getUsersData
-module.exports.basicCode= basicCode
-=======
+
+
   let user = await userModel.findOne({ emailId: userName, password: password });
   if (!user)
     return res.send({
@@ -131,4 +110,4 @@ module.exports.createUser = createUser;
 module.exports.getUserData = getUserData;
 module.exports.updateUser = updateUser;
 module.exports.loginUser = loginUser;
->>>>>>> assignment/auth-2
+module.exports.basicCode= basicCode

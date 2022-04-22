@@ -1,34 +1,43 @@
 const userModel = require("../models/userModel")
-const jwt=require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const { get } = require("express/lib/request");
 
-let createNewUser = async function(req,res){
-    let newUserDetail=req.body;
-    let saveUser= await userModel.create(newUserDetail)
-    res.send({Status:true, data:saveUser})
+let createNewUser = async function (req, res) {
+    try {
+        let newUserDetail = req.body;
+        let saveUser = await userModel.create(newUserDetail)
+        res.status(201).send({ Status: true, data: saveUser })
+    }
+    catch (error) {
+        res.status(400).send({ msg: "Error", error: error.message })
+    }
 }
 
-let signInUser=async function(req,res){
-    let emailID=req.body.emailId;
-    let password=req.body.password;
+let signInUser = async function (req, res) {
+    try {
+        let emailID = req.body.emailId;
+        let password = req.body.password;
 
-    let user=await userModel.findOne({emailId:emailID,password:password})
+        let user = await userModel.findOne({ emailId: emailID, password: password })
 
-    if(!user) return  res.send({msg:"EmailId or password is wrong!"});
-    
-    let token= jwt.sign(
-        {
-       userID:user._id,
-       name:"Sachin",
-       info: "Developer"
-    }, "Student of uranium batch")
-    
-    res.setHeader("x-auth-token", token)
-    return res.send({Status:true,token:token})
+        if (!user) return res.status(401).send({ msg: "EmailId or password is wrong!" });
 
+        let token = jwt.sign(
+            {
+                userID: user._id,
+                name: "Sachin",
+                info: "Developer"
+            }, "Student of uranium batch")
+
+        res.status(200).setHeader("x-auth-token", token)
+        return res.status(200).send({ Status: true, token: token })
+    }
+    catch (error) {
+        res.status(400).send({ msg: "Error", error: error.message })
+    }
 }
 
-let getUserDetail =async function(req,res){
+let getUserDetail = async function (req, res) {
 
     // let token =req.headers["x-auth-token"]
 
@@ -39,18 +48,23 @@ let getUserDetail =async function(req,res){
     // let decodeToken= jwt.verify(token,"Student of uranium batch" )
 
     // if(!decodeToken) return res.send({msg:"Not a valid Token!"})
+    try {
 
-    let userId=req.params.userId
+        let userId = req.params.userId
 
-    let getUserDetail=await userModel.findOne({_id:userId})
+        let getUserDetail = await userModel.findOne({ _id: userId })
 
-    if(!getUserDetail) return res.send({msg:"User detail not found!"})
-    
-    res.send({Status:true,data:getUserDetail})
+        if (!getUserDetail) return res.status(404).send({ msg: "User not found!" })
+
+        res.status(200).send({ Status: true, data: getUserDetail })
+    }
+    catch (error) {
+        res.status(400).send({ msg: "Error", error: error.message })
+    }
 
 }
 
-let updateUser= async function(req,res){
+let updateUser = async function (req, res) {
 
     // let token =req.headers["x-auth-token"]
 
@@ -62,18 +76,23 @@ let updateUser= async function(req,res){
 
     // if(!decodeToken) return  res.send({msg:"Not a valid Token!"})
 
-    let userId=req.params.userId
-    
-    let updateUserData=req.body;
+    try {
+        let userId = req.params.userId
 
-    let updatedUser=await userModel.findOneAndUpdate({_id:userId}, {$set:updateUserData}, {new:true})
+        let updateUserData = req.body;
 
-    if(!updatedUser) return res.send({msg:"User does not exist"})
+        let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, { $set: updateUserData }, { new: true })
 
-    res.send({Status:true, data:updatedUser}) 
+        if (!updatedUser) return res.status(404).send({ msg: "User not found!" })
+
+        res.status(200).send({ Status: true, data: updatedUser })
+    }
+    catch (error) {
+        res.status(400).send({msg:"Error", error:error.message})
+    }
 }
 
-let deleteUser=async function(req,res){
+let deleteUser = async function (req, res) {
 
     // let token =req.headers["x-auth-token"]
 
@@ -84,19 +103,24 @@ let deleteUser=async function(req,res){
     // let decodeToken =jwt.verify(token,"Student of uranium batch")
 
     // if(!decodeToken) return  res.send({msg:"Not a valid Token!"})
+    try{
 
-    let userId=req.params.userId
+    let userId = req.params.userId
 
-    let deletedUser=await userModel.findOneAndUpdate({_id:userId}, {$set:{isDeleted: true}}, {new:true})
+    let deletedUser = await userModel.findOneAndUpdate({ _id: userId }, { $set: { isDeleted: true } }, { new: true })
 
-    if(!deletedUser) return res.send({msg:"User does not exist"})
+    if (!deletedUser) return res.status(404).send({ msg: "User not found!" })
 
-    res.send({Status:true, data:deletedUser}) 
+    res.status(200).send({ Status: true, data: deletedUser })
+    }
+    catch(error){
+        res.status(400).send({msg:"Error", error:error.message})
+    }
 
 }
 
-module.exports.createNewUser=createNewUser;
-module.exports.signInUser=signInUser;
-module.exports.getUserDetail=getUserDetail;
-module.exports.updateUser=updateUser;
-module.exports.deleteUser=deleteUser;
+module.exports.createNewUser = createNewUser;
+module.exports.signInUser = signInUser;
+module.exports.getUserDetail = getUserDetail;
+module.exports.updateUser = updateUser;
+module.exports.deleteUser = deleteUser;

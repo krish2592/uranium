@@ -79,9 +79,13 @@ let updateUser = async function (req, res) {
     try {
         let userId = req.params.userId
 
-        let updateUserData = req.body;
+        let updateUserPost = req.body.post;
+        let message=[];
+        message.push(updateUserPost);
+        req.body["post"]=message;
+        let updateUserData=req.body
 
-        let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, { $set: updateUserData }, { new: true })
+        let updatedUser = await userModel.findOneAndUpdate({ _id: userId },updateUserData, { new: true })
 
         if (!updatedUser) return res.status(404).send({ msg: "User not found!" })
 
@@ -118,6 +122,7 @@ let deleteUser = async function (req, res) {
     }
 
 }
+
 
 module.exports.createNewUser = createNewUser;
 module.exports.signInUser = signInUser;
